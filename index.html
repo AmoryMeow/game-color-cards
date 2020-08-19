@@ -8,13 +8,30 @@
 </head>
 <body class="page">
   <header class="header">
-    <button type="button" name="start" class="header__start">Новая игра</button>
+    <div class="header__time">00:00</div>
     <h1 class="header__score">0/20</h1>
     <h2>Ходов: <span  class="header__step">0</span></h2>
   </header>
 
   <main class="content">
-    <div class="field">
+    <section class="setting">
+      <form action="post" class="setting__form">
+        <input type="text" class="setting__input setting__input_type_name" name="name" placeholder="Ваше имя">
+        <label > Количество столбцов:
+          <input type="text" class="setting__input setting__input_type_cols" name="cols" placeholder="5">
+        </label>
+        <label > Количество строк:
+          <input type="text" class="setting__input setting__input_type_rows" name="rows" placeholder="4">
+        </label>
+        <label>
+          <input type="checkbox" class="setting__checkbox">
+          На время
+        </label>
+        <button type="button" name="start" class="setting__start">Новая игра</button>
+      </form>
+    </section>
+
+    <section class="field">
       <div class="field__cell"></div>
       <div class="field__cell"></div>
       <div class="field__cell"></div>
@@ -35,7 +52,11 @@
       <div class="field__cell"></div>
       <div class="field__cell"></div>
       <div class="field__cell"></div>
-    </div>
+    </section>
+
+    <section class="best-score">
+      best-score
+    </section>
 
   </main>
 

@@ -1,15 +1,20 @@
 const colors = ['hotpink', 'red', 'gold', 'green', 'purple','skyblue', 'cyan', 'coral', 'lightgreen', 'grey'];
 const currentField = [];
-const countCells = 20;
+let countCells = 20;
+let countCols = 5;
+let countRows = 4;
 let currentCouple = ''; //текущие открытые карточки. максимум 2
 let score = 0; //счет
 let step = 0; //ходы
 
 const field = document.querySelector('.field');
 const cells = field.querySelectorAll('.field__cell');
-const startGame = document.querySelector('.header__start');
+const startGame = document.querySelector('.setting__start');
 const scoreDisplay = document.querySelector('.header__score');
 const stepDisplay = document.querySelector('.header__step');
+const setting = document.querySelector('.setting');
+const rowsDisplay = setting.querySelector('.setting__input_type_rows');
+const colsDisplay = setting.querySelector('.setting__input_type_cols');
 
 function closeAllCard() {
   cells.forEach( function (cell) {
@@ -118,6 +123,9 @@ function start() {
   scoreDisplay.textContent = '' + score + '/' + countCells;
   step = 0;
   stepDisplay.textContent = step;
+  rowsDisplay.value = countRows;
+  colsDisplay.value = countCols;
+
 }
 
 /****/

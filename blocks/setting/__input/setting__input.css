@@ -1,0 +1,9 @@
+.setting__input {
+  margin: 10px 0;
+  padding: 0;
+  height: 25px;
+  width: 200px;
+  outline: none;
+  border: none;
+  border-bottom: gray 1px solid;
+}
