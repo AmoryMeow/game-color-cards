@@ -7,7 +7,7 @@
 
 **Макет**
 
-* [Ссылка на gh-page] (https://amorymeow.github.io/game-color-cards/)
+* [Ссылка на gh-page](https://amorymeow.github.io/game-color-cards/)
 
 **Заголовок**
 
