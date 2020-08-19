@@ -1,0 +1,13 @@
+@import url('../vendor/normalize.css');
+@import url('../blocks/page/page.css');
+@import url('../blocks/content/content.css');
+@import url('../blocks/header/header.css');
+@import url('../blocks/header/__start/header__start.css');
+@import url('../blocks/field/field.css');
+@import url('../blocks/field/__cell/field__cell.css');
+@import url('../blocks/field/__cell/_closed/field__cell_closed.css');
+
+*{
+  /*outline: 1px solid green;*/
+
+}
