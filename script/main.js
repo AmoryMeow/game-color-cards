@@ -1,14 +1,14 @@
 const colors = ['hotpink', 'red', 'gold', 'green', 'purple','skyblue', 'cyan', 'coral', 'lightgreen', 'grey'];
 const currentField = [];
 let countCells = 20;
-let countCols = 2;
-let countRows = 2;
-let currentCouple = ''; //текущие открытые карточки. максимум 2
+let countCols = 4;
+let countRows = 4;
+let currentCouple = ''; //текущая открытая карточка
 let score = 0; //счет
 let step = 0; //ходы
 
 const field = document.querySelector('.field');
-const cells = field.querySelectorAll('.field__cell');
+let cells = [];
 const startGame = document.querySelector('.setting__start');
 const scoreDisplay = document.querySelector('.header__score');
 const stepDisplay = document.querySelector('.header__step');
@@ -17,9 +17,7 @@ const rowsDisplay = setting.querySelector('.setting__input_type_rows');
 const colsDisplay = setting.querySelector('.setting__input_type_cols');
 
 function closeAllCard() {
-  const cells = field.querySelectorAll('.field__cell');
   cells.forEach( function (cell) {
-
     closeCard(cell);
   });
 }
@@ -30,7 +28,6 @@ function closeCard(card) {
 }
 
 function openAllCard() {
-  const cells = field.querySelectorAll('.field__cell');
   cells.forEach( function (cell) {
     cell.classList.remove('field__cell_closed');
   });
@@ -116,6 +113,7 @@ function initialColor() {
 function initialField() {
   colorArray = initialColor();
   currentField.splice(0);
+  cells = field.querySelectorAll('.field__cell');
   for (let i = 0; i < countCells; i++) {
     currentField.push({card: cells[i], color: colorArray[i]})
   }
@@ -124,6 +122,8 @@ function initialField() {
 function createCell() {
   const newCell = document.createElement('div');
   newCell.classList.add('field__cell');
+  newCell.addEventListener('click', flipCard);
+
   return newCell;
 }
 
@@ -131,8 +131,8 @@ function createField() {
   countRows = rowsDisplay.value;
   countCols = colsDisplay.value;
 
-  field.style.gridTemplateColumns = `repeat(${countCols}, 80px)`;
   field.style.gridTemplateRows = `repeat(${countRows}, 80px)`;
+  field.style.gridTemplateColumns = `repeat(${countCols}, 80px)`;
 
   countCells = countRows * countCols;
 
@@ -144,8 +144,9 @@ function createField() {
 }
 
 function clearField() {
-  field.children.forEach( (cell) => {
-    item.remove();
+  cells.forEach( (cell) => {
+    cell.removeEventListener('click',flipCard);
+    cell.remove();
   });
 }
 
@@ -170,9 +171,7 @@ function initialPage() {
 
 /**обработчики элементов**/
 startGame.addEventListener('click', start);
-cells.forEach( (cell) => {
-  cell.addEventListener('click', flipCard);
-});
+
 
 /*updage page */
 initialPage();
