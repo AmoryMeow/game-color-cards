@@ -6,6 +6,7 @@ let countRows = 4;
 let currentCouple = ''; //текущая открытая карточка
 let score = 0; //счет
 let step = 0; //ходы
+let timer;
 
 const field = document.querySelector('.field');
 let cells = [];
@@ -15,6 +16,7 @@ const stepDisplay = document.querySelector('.header__step');
 const setting = document.querySelector('.setting');
 const rowsDisplay = setting.querySelector('.setting__input_type_rows');
 const colsDisplay = setting.querySelector('.setting__input_type_cols');
+const timeDisplay = document.querySelector('.header__time');
 
 function closeAllCard() {
   cells.forEach( function (cell) {
@@ -47,8 +49,6 @@ function flipCard(evt) {
       checkMatch(currCard);
     }, 1000);
   }
-
-
 }
 
 /*проверить совпали ли карточки*/
@@ -78,10 +78,17 @@ function checkMatch(currCard) {
 function scoreUp() {
   score += 2;
   updateScore();
+  checkWin();
 }
 
 function updateScore() {
   scoreDisplay.textContent = '' + score + '/' + countCells;
+}
+
+function checkWin() {
+  if ((score === countCells) || (score === countCells-1)) {
+    stopTimer();
+  }
 }
 
 /*начало игры*/
@@ -160,12 +167,40 @@ function clearField() {
   });
 }
 
+/*таймер*/
+function startTimer() {
+  time = 0;
+  timer = setInterval( function() {
+    time += 1;
+    updateTimerDisplay(time);
+  },1000);
+}
+
+function stopTimer() {
+  clearInterval(timer);
+  console.log("stopTimer -> timer", timer)
+}
+
+function updateTimerDisplay(time) {
+  min = (time - time%60)/60;
+  sec = time%60;
+  if (min <10) {
+    min = '0' + min;
+  }
+  if (sec <10) {
+    sec = '0' + sec;
+  }
+  timeDisplay.textContent = `${min}:${sec}`;
+}
+
+/*start*/
 function start() {
   clearField();
   createField();
   initialField();
   closeAllCard();
   updateScore();
+  startTimer();
   currentCouple = '';
   score = 0;
   scoreDisplay.textContent = '' + score + '/' + countCells;
