@@ -131,9 +131,18 @@ function createField() {
   countRows = rowsDisplay.value;
   countCols = colsDisplay.value;
 
+  if (countRows > 20) {
+    alert('Многовато строк, остановимся на 20');
+    countRows = 20;
+    rowsDisplay.value = countRows;
+  }
+  if (countCols > 20) {
+    alert('Многовато стобцов, остановимся на 20');
+    countCols = 20;
+    colsDisplay.value = countCols;
+  }
   field.style.gridTemplateColumns = `repeat(${countCols}, ${((760 - (countCols-1)*10) / countCols)}px)`;
   field.style.gridTemplateRows = `repeat(${countRows}, calc((100vh - 110px - ${countRows*10}px)/${countRows}))`;
-
 
   countCells = countRows * countCols;
 
