@@ -3,4 +3,6 @@
   padding: 20px 0;
   display: flex;
   justify-content: space-around;
+  max-height: 100px;
+  box-sizing: border-box;
 }

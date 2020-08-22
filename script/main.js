@@ -131,8 +131,9 @@ function createField() {
   countRows = rowsDisplay.value;
   countCols = colsDisplay.value;
 
-  field.style.gridTemplateRows = `repeat(${countRows}, 80px)`;
-  field.style.gridTemplateColumns = `repeat(${countCols}, 80px)`;
+  field.style.gridTemplateColumns = `repeat(${countCols}, ${((760 - (countCols-1)*10) / countCols)}px)`;
+  field.style.gridTemplateRows = `repeat(${countRows}, calc((100vh - 110px - ${countRows*10}px)/${countRows}))`;
+
 
   countCells = countRows * countCols;
 
