@@ -169,6 +169,7 @@ function clearField() {
 
 /*таймер*/
 function startTimer() {
+  stopTimer();
   time = 0;
   timer = setInterval( function() {
     time += 1;
