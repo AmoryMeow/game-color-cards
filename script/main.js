@@ -217,6 +217,16 @@ function createField() {
     countCols = 20;
     colsDisplay.value = countCols;
   }
+  if (countRows < 2) {
+    alert('Маловато строк, может хотя бы 2?');
+    countRows = 2;
+    rowsDisplay.value = countRows;
+  }
+  if (countCols < 2) {
+    alert('Маловато стобцов, может хотя бы 2?');
+    countCols = 2;
+    colsDisplay.value = countCols;
+  }
   field.style.gridTemplateColumns = `repeat(${countCols}, ${((760 - (countCols-1)*10) / countCols)}px)`;
   field.style.gridTemplateRows = `repeat(${countRows}, calc((100vh - 110px - ${countRows*10}px)/${countRows}))`;
   field.classList.remove('field_status_win');
