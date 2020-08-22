@@ -10,8 +10,15 @@
 @import url('../blocks/field/field.css');
 @import url('../blocks/field/__cell/field__cell.css');
 @import url('../blocks/field/__cell/_closed/field__cell_closed.css');
+@import url('../blocks/field/_win/field_win.css');
 
 @import url('../blocks/best-score/best-score.css');
+@import url('../blocks/best-score/__title/best-score__title.css');
+@import url('../blocks/best-score/__container/best-score__container.css');
+@import url('../blocks/best-score/__name/best-score__name.css');
+@import url('../blocks/best-score/__cards/best-score__cards.css');
+@import url('../blocks/best-score/__time/best-score__time.css');
+@import url('../blocks/best-score/__step/best-score__step.css');
 
 @import url('../blocks/setting/setting.css');
 @import url('../blocks/setting/__form/setting__form.css');
@@ -23,6 +30,6 @@
 @import url('../blocks/setting/__input/_type/setting__input_type_rows.css');
 
 *{
-/*  outline: 1px solid green;*/
+  /*outline: 1px solid green;*/
 
 }

@@ -6,7 +6,9 @@ let countRows = 4;
 let currentCouple = ''; //текущая открытая карточка
 let score = 0; //счет
 let step = 0; //ходы
-let timer;
+let timer; //таймер
+let time = 0; //текущее время
+let bestScore = [];
 
 const field = document.querySelector('.field');
 let cells = [];
@@ -17,6 +19,7 @@ const setting = document.querySelector('.setting');
 const rowsDisplay = setting.querySelector('.setting__input_type_rows');
 const colsDisplay = setting.querySelector('.setting__input_type_cols');
 const timeDisplay = document.querySelector('.header__time');
+const scoreTable = document.querySelector('.best-score__container');
 
 function closeAllCard() {
   cells.forEach( function (cell) {
@@ -53,6 +56,9 @@ function flipCard(evt) {
 
 /*проверить совпали ли карточки*/
 function checkMatch(currCard) {
+  step += 1;
+  stepDisplay.textContent = step;
+
   if (currentCouple === '') {
 
     currentCouple = currCard;
@@ -67,9 +73,6 @@ function checkMatch(currCard) {
     }
 
     currentCouple = '';
-    step += 1;
-    stepDisplay.textContent = step;
-
   }
 
 }
@@ -87,8 +90,66 @@ function updateScore() {
 
 function checkWin() {
   if ((score === countCells) || (score === countCells-1)) {
-    stopTimer();
+    time = stopTimer();
+    addScore(time);
+    winField();
   }
+}
+
+function winField() {
+  field.classList.add('field_win');
+}
+
+/*таблица результатов*/
+function addScore(time) {
+
+  let name = document.querySelector('.setting__input_type_name').value;
+  if (name === '') {
+    name = "anonymous";
+  };
+
+  bestScore.push({name: name, step: step, time: time, cards: countCells});
+  updateBestScore();
+}
+
+function updateBestScore() {
+  bestScore = bestScore.sort(function(a,b) {
+    return a.time - b.time;
+  });
+  if (bestScore.length > 10) {
+    //топ 10
+    bestScore.splice(10);
+  }
+  updateScoreTable();
+}
+
+function updateScoreTable() {
+  //очищаем таблицу
+  let arrayScoreLine = Array.from(scoreTable.children);
+  arrayScoreLine.forEach( (item) => {
+    item.remove();
+  });
+  //перезаполняем
+  bestScore.forEach((item) => {
+    const newScoreLine = createScoreLine(item.name,item.cards,item.time,item.step);
+    scoreTable.append(newScoreLine);
+  })
+}
+
+function createScoreLine(name,cards,time,step) {
+  const scoreTemplate = document.querySelector('#score').content;
+  const newScore = scoreTemplate.cloneNode(true);
+
+  const scoreName = newScore.querySelector('.best-score__name');
+  scoreName.textContent = name;
+  const scoreCards = newScore.querySelector('.best-score__cards');
+  scoreCards.textContent = cards;
+  const scoreTime = newScore.querySelector('.best-score__time');
+  scoreTime.textContent = secToMin(time);
+  const scoreStep = newScore.querySelector('.best-score__step');
+  scoreStep.textContent = step;
+
+  return newScore;
 }
 
 /*начало игры*/
@@ -150,6 +211,7 @@ function createField() {
   }
   field.style.gridTemplateColumns = `repeat(${countCols}, ${((760 - (countCols-1)*10) / countCols)}px)`;
   field.style.gridTemplateRows = `repeat(${countRows}, calc((100vh - 110px - ${countRows*10}px)/${countRows}))`;
+  field.classList.remove('field_win');
 
   countCells = countRows * countCols;
 
@@ -179,10 +241,14 @@ function startTimer() {
 
 function stopTimer() {
   clearInterval(timer);
-  console.log("stopTimer -> timer", timer)
+  return time;
 }
 
 function updateTimerDisplay(time) {
+  timeDisplay.textContent = secToMin(time);
+}
+
+function secToMin(time) {
   min = (time - time%60)/60;
   sec = time%60;
   if (min <10) {
@@ -191,7 +257,7 @@ function updateTimerDisplay(time) {
   if (sec <10) {
     sec = '0' + sec;
   }
-  timeDisplay.textContent = `${min}:${sec}`;
+  return `${min}:${sec}`;
 }
 
 /*start*/
