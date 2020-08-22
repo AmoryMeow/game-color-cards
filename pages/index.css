@@ -10,7 +10,8 @@
 @import url('../blocks/field/field.css');
 @import url('../blocks/field/__cell/field__cell.css');
 @import url('../blocks/field/__cell/_closed/field__cell_closed.css');
-@import url('../blocks/field/_win/field_win.css');
+@import url('../blocks/field/_status/field_status_win.css');
+@import url('../blocks/field/_status/field_status_block.css');
 
 @import url('../blocks/best-score/best-score.css');
 @import url('../blocks/best-score/__title/best-score__title.css');

@@ -7,8 +7,11 @@ let currentCouple = ''; //текущая открытая карточка
 let score = 0; //счет
 let step = 0; //ходы
 let timer; //таймер
+let timerRevers; //обратный отсчет
 let time = 0; //текущее время
+let revTime = 0;//текущее время для обратного отсчета
 let bestScore = [];
+let countDown = false;
 
 const field = document.querySelector('.field');
 let cells = [];
@@ -20,6 +23,7 @@ const rowsDisplay = setting.querySelector('.setting__input_type_rows');
 const colsDisplay = setting.querySelector('.setting__input_type_cols');
 const timeDisplay = document.querySelector('.header__time');
 const scoreTable = document.querySelector('.best-score__container');
+const countDownDisplay = document.querySelector('.setting__checkbox');
 
 function closeAllCard() {
   cells.forEach( function (cell) {
@@ -56,17 +60,21 @@ function flipCard(evt) {
 
 /*проверить совпали ли карточки*/
 function checkMatch(currCard) {
-  step += 1;
-  stepDisplay.textContent = step;
 
   if (currentCouple === '') {
-
     currentCouple = currCard;
-
   } else {
+    step += 1;
+    stepDisplay.textContent = step;
+
     if (currentCouple.color === currCard.color) {
       //match
       scoreUp();
+      if (countDownDisplay.checked) {
+        revTime += 5;
+        console.log("startTimer -> revTime", revTime)
+        updateTimerDisplay(revTime);
+      }
     } else {
       closeCard(currCard.card);
       closeCard(currentCouple.card);
@@ -97,7 +105,7 @@ function checkWin() {
 }
 
 function winField() {
-  field.classList.add('field_win');
+  field.classList.add('field_status_win');
 }
 
 /*таблица результатов*/
@@ -211,7 +219,8 @@ function createField() {
   }
   field.style.gridTemplateColumns = `repeat(${countCols}, ${((760 - (countCols-1)*10) / countCols)}px)`;
   field.style.gridTemplateRows = `repeat(${countRows}, calc((100vh - 110px - ${countRows*10}px)/${countRows}))`;
-  field.classList.remove('field_win');
+  field.classList.remove('field_status_win');
+  field.classList.remove('field_status_block');
 
   countCells = countRows * countCols;
 
@@ -229,23 +238,52 @@ function clearField() {
   });
 }
 
+function blockField() {
+  cells.forEach( (cell) => {
+    cell.removeEventListener('click',flipCard);
+  });
+  field.classList.add('field_status_block');
+}
+
 /*таймер*/
 function startTimer() {
   stopTimer();
-  time = 0;
-  timer = setInterval( function() {
-    time += 1;
-    updateTimerDisplay(time);
-  },1000);
+  if (!countDownDisplay.checked) {
+    time = 0;
+    timer = setInterval( function() {
+      time += 1;
+      updateTimerDisplay(time);
+    },1000);
+  } else {
+    revTime = 30;
+    time = 0;
+    timerRevers = setInterval( function() {
+      if (revTime > 0) {
+      revTime -= 1;
+      time += 1;
+      updateTimerDisplay(revTime);
+      } else {
+        stopTimer();
+        blockField();
+        alert('Увы, время вышло!');
+      }
+    },1000);
+  }
 }
 
 function stopTimer() {
   clearInterval(timer);
+  clearInterval(timerRevers);
   return time;
 }
 
 function updateTimerDisplay(time) {
   timeDisplay.textContent = secToMin(time);
+  if (countDownDisplay.checked && time < 5) {
+    timeDisplay.style.color = 'red';
+  } else {
+    timeDisplay.style = '';
+  }
 }
 
 function secToMin(time) {
@@ -283,7 +321,6 @@ function initialPage() {
 
 /**обработчики элементов**/
 startGame.addEventListener('click', start);
-
 
 /*updage page */
 initialPage();
