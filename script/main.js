@@ -72,7 +72,6 @@ function checkMatch(currCard) {
       scoreUp();
       if (countDownDisplay.checked) {
         revTime += 5;
-        console.log("startTimer -> revTime", revTime)
         updateTimerDisplay(revTime);
       }
     } else {
